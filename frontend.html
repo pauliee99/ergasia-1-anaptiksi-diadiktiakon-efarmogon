@@ -59,6 +59,7 @@
         </style>  
     </head>
     <body>
+        <link rel="shortcut icon" href=""> //to fix favicon.ico err
         <p><b class="textinparagraph"> Welcome to this awsome book website!!!</b>
         </p>
         <button id="button1" type="button" class="collapsible">Add new book</button>
@@ -120,7 +121,6 @@
             xhr.open('post', 'http://localhost:3000/addBook');
             xhr.setRequestHeader('Content-Type','application/json');
             const book = {
-                id: document.getElementById('id').value,
                 author: document.getElementById('author').value,
                 title: document.getElementById('title').value,
                 genre: document.getElementById('genre').value,
@@ -158,13 +158,4 @@
         //     }
         // });
     </script>
-<!--
-    <form action="/action_page.php">
-        <label for="phone">Enter a phone number:</label><br><br>
-        <input type="tel" id="phone" name="phone" placeholder="123-45-678"
-        pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"><br><br>
-        <small>Format: 123-45-678</small><br><br>
-        <input type="submit">
-    </form> 
--->
 </html>
