@@ -59,7 +59,7 @@
         </style>  
     </head>
     <body>
-        <link rel="shortcut icon" href=""> //to fix favicon.ico err
+        <link rel="shortcut icon" href=""> <!-- to fix favicon.ico err-->
         <p><b class="textinparagraph"> Welcome to this awsome book website!!!</b>
         </p>
         <button id="button1" type="button" class="collapsible">Add new book</button>
@@ -115,6 +115,7 @@
             });
         }
 
+
 		// the add new book button
 		document.getElementById('addbook').addEventListener('click', function(event){
             const xhr=new XMLHttpRequest();
@@ -129,8 +130,14 @@
             xhr.send(JSON.stringify(book));
             xhr.onreadystatechange = function(){
                 if (xhr.readyState == 4){
+                    var price = document.getElementById("price");
                     if (xhr.status == 200){
-                        alert('ok');
+                        if (isNaN(price)){
+                            alert('price must be a number');
+                        }else{
+                            alert('ok');
+                        }
+
                     }
                 }    
             };
@@ -138,24 +145,24 @@
 
         // search button
 
-        // const submit = document.getElementById('submit');
-        // submit.addEventListener('click',function(event){
-        //     const xhr = new XMLHttpRequest();
-        //     xhr.open('GET','http://localhost:3000/getBooks');
-        //     xhr.send();
-        //     xhr.onreadystatechange = function(){
-        //         if (xhr.readyState== 4){
-        //             if (xhr.status == 200){
-        //                 const result = JSON.parse(xhr.responseText);
-        //                 const pElem = document.createElement('p');
-        //                 const text = document.createTextNode(author);
-        //                 pElem.appendChild(text);
-        //                 const divElem = document.getElementById('author');
-        //                 divElem.appendChild(pElem);
-        //                 alert(author);
-        //             }
-        //         }
-        //     }
-        // });
+         const submit = document.getElementById('submit');
+         submit.addEventListener('click',function(event){
+             const xhr = new XMLHttpRequest();
+             xhr.open('GET','http://localhost:3000/getBooks');
+             xhr.send();
+             xhr.onreadystatechange = function(){
+                 if (xhr.readyState== 4){
+                     if (xhr.status == 200){
+                         const result = JSON.parse(xhr.responseText);
+                         const pElem = document.createElement('p');
+                         const text = document.createTextNode(author);
+                         pElem.appendChild(text);
+                         const divElem = document.getElementById('author');
+                         divElem.appendChild(pElem);
+                         alert(author);
+                     }
+                 }
+             }
+         });
     </script>
 </html>

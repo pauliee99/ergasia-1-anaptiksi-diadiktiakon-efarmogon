@@ -18,14 +18,6 @@ let db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
     }
     console.log('Connected to the in-rmemoy SQlite database.');
 });
-app.get(function(req, res){
-    db.run('INSERT INTO books(author, title, genre, price) VALUES(req.params.author, req.params.title, req.params.genre, req.params.price)', ['C'], function(err) {
-        if (err) {
-          return console.log(err.message);
-        }
-        console.log(`A row has been inserted with rowid ${this.lastID}`);
-    });
-});
 db.each("SELECT * FROM books", function(err, row){
     if (!err){
         console.log(JSON.stringify(row));//ektipni
@@ -36,11 +28,28 @@ db.each("SELECT * FROM books", function(err, row){
 
 app.get('/getBooks',function(req, res){
     res.send(books);
+    db.each("SELECT * FROM books", function(err, row){
+        if (!err){
+            console.log(JSON.stringify(row));//ektipni
+            books.push(row);//vali ta sto books
+        }
+    });
 });
 
 app.post('/addBook', function(req, res){
     console.log(JSON.stringify(req.body));
     books.push(req.body);
+    author=(req.body.author);
+    title=(req.body.title);
+    genre=(req.body.genre);
+    price=(req.body.price);
+    db.run('INSERT INTO books(id, author, title, genre, price) VALUES(null, ?, ?, ?, ?)', author,title,genre,price, function(err) {
+        if (err) {
+          return console.log(err.message);
+        }
+        console.log(`title: req.params.title`);
+        console.log(`A row has been inserted with rowid ${this.lastID}`);
+    });
     res.send();
 });
 
