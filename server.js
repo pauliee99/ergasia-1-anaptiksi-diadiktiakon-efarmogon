@@ -25,17 +25,6 @@ db.each("SELECT * FROM books", function(err, row){
     }
 });
 
-
-app.get('/getBooks',function(req, res){
-    res.send(books);
-    db.each("SELECT * FROM books", function(err, row){
-        if (!err){
-            console.log(JSON.stringify(row));//ektipni
-            books.push(row);//vali ta sto books
-        }
-    });
-});
-
 app.post('/addBook', function(req, res){
     console.log(JSON.stringify(req.body));
     books.push(req.body);
@@ -48,11 +37,20 @@ app.post('/addBook', function(req, res){
           return console.log(err.message);
         }
         console.log(`title: req.params.title`);
-        console.log(`A row has been inserted with rowid ${this.lastID}`);
+        console.log(`A book has been inserted in the database with rowid ${this.lastID}`);
     });
     res.send();
 });
-
+app.get('/getBooks',function(req, res){
+    
+    db.each("SELECT * FROM books", function(err, row){
+        if (!err){
+            console.log(JSON.stringify(row));//ektipni
+            books.push(row);//vali ta sto books
+        }
+    });
+    res.send(books);
+});
 app.get('/getBook/:title', function(req,res){
     let result = {message:'not found'};
     for(let i=0;i<books.length;i++){

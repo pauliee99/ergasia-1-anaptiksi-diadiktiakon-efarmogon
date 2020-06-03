@@ -115,7 +115,6 @@
             });
         }
 
-
 		// the add new book button
 		document.getElementById('addbook').addEventListener('click', function(event){
             const xhr=new XMLHttpRequest();
@@ -127,42 +126,40 @@
                 genre: document.getElementById('genre').value,
                 price: document.getElementById('price').value
             };
-            xhr.send(JSON.stringify(book));
-            xhr.onreadystatechange = function(){
-                if (xhr.readyState == 4){
-                    var price = document.getElementById("price");
-                    if (xhr.status == 200){
-                        if (isNaN(price)){
-                            alert('price must be a number');
-                        }else{
+            if (isNaN(price)){
+                xhr.send(JSON.stringify(book));
+                xhr.onreadystatechange = function(){
+                    if (xhr.readyState == 4){
+                        var price = document.getElementById("price");
+                        if (xhr.status == 200){
                             alert('ok');
                         }
-
-                    }
-                }    
-            };
+                    }    
+                };
+            }else{
+                alert('price must be a number');
+            }
         });
 
         // search button
-
-         const submit = document.getElementById('submit');
-         submit.addEventListener('click',function(event){
-             const xhr = new XMLHttpRequest();
-             xhr.open('GET','http://localhost:3000/getBooks');
-             xhr.send();
-             xhr.onreadystatechange = function(){
-                 if (xhr.readyState== 4){
-                     if (xhr.status == 200){
-                         const result = JSON.parse(xhr.responseText);
-                         const pElem = document.createElement('p');
-                         const text = document.createTextNode(author);
-                         pElem.appendChild(text);
-                         const divElem = document.getElementById('author');
-                         divElem.appendChild(pElem);
-                         alert(author);
-                     }
-                 }
-             }
-         });
+        const search = document.getElementById('search');
+        search.addEventListener('click',function(event){
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET','http://localhost:3000/getBooks/');
+            xhr.send();
+            xhr.onreadystatechange = function(){
+                if (xhr.readyState== 4){
+                    if (xhr.status == 200){
+                        const result = JSON.parse(xhr.responseText);
+                        const pElem = document.createElement('p');
+                        const text = document.createTextNode(result[0].author);
+                        pElem.appendChild(text);
+                        const divElem = document.getElementById('author');
+                        divElem.appendChild(pElem);
+                        //alert(author);
+                    }
+                }
+            }
+        });
     </script>
 </html>
